@@ -1,0 +1,26 @@
+CREATE TABLE public.man_mb (
+  id INTEGER PRIMARY KEY NOT NULL DEFAULT nextval('man_mb_id_seq'::regclass),
+  name CHARACTER VARYING NOT NULL
+);
+CREATE UNIQUE INDEX unique_name_man ON man_mb USING BTREE (name);
+
+CREATE TABLE public.woman_mb (
+  id INTEGER PRIMARY KEY NOT NULL DEFAULT nextval('woman_mb_id_seq'::regclass),
+  name CHARACTER VARYING NOT NULL
+);
+CREATE UNIQUE INDEX unique_name ON woman_mb USING BTREE (name);
+
+CREATE TABLE public.dance_mb (
+  id INTEGER PRIMARY KEY NOT NULL DEFAULT nextval('dance_mb_id_seq'::regclass),
+  man_id INTEGER NOT NULL,
+  woman_id INTEGER NOT NULL,
+  style CHARACTER VARYING NOT NULL,
+  FOREIGN KEY (man_id) REFERENCES man_mb (id)
+  MATCH UNKNOWN ON UPDATE NO ACTION ON DELETE CASCADE,
+  FOREIGN KEY (woman_id) REFERENCES woman_mb (id)
+  MATCH UNKNOWN ON UPDATE NO ACTION ON DELETE CASCADE,
+  FOREIGN KEY (woman_id) REFERENCES woman_mb (id)
+  MATCH UNKNOWN ON UPDATE NO ACTION ON DELETE NO ACTION,
+  FOREIGN KEY (man_id) REFERENCES man_mb (id)
+  MATCH UNKNOWN ON UPDATE NO ACTION ON DELETE NO ACTION
+);
